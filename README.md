@@ -1,12 +1,62 @@
-# React + Vite
+# Frontend - React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend of the project, built with **React + Vite**.  
+It allows users to upload and view PDFs, highlight text, and interact with the backend.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Getting Started
 
-## Expanding the ESLint configuration
+### 1. Clone the repository
+```bash
+git clone <your-repo-link>
+cd frontend
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Install dependencies
+```bash
+Copy code
+npm install
+```
+### 3. Setup environment variables
+Create a .env file in the frontend root:
+```
+ini
+Copy code
+VITE_API_BASE_URL=http://localhost:3000
+⚠️ All environment variables must start with VITE_ in Vite.
+```
+### 4. Run development server
+```bash
+Copy code
+npm run dev
+```
+Your app will be available at https://pdf-anno.netlify.app/
+
+## 📂 Folder Structure
+```bash
+Copy code
+frontend/
+│── src/
+│   ├── components/      # Reusable UI components
+│   ├── hooks/           # Custom hooks (axios, fetch, etc.)
+│   ├── pages/           # Page-level components (PDF viewer, auth, etc.)
+│   ├── App.jsx
+│   └── main.jsx
+│── public/              # Static files
+│── .env                 # Environment variables
+│── vite.config.js
+│── package.json
+```
+
+## 🛠️ Tech Stack
+React 18
+Vite
+Axios
+Tailwind CSS
+react-pdf / pdfjs
+React Router DOM
+yaml
+Copy code
+
+---
