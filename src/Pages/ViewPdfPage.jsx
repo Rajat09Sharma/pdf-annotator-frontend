@@ -16,9 +16,9 @@ export const ViewPdfPage = () => {
   const axiosPrivate = useAxiosPrivate();
   const { id } = useParams();
 
-  const addHighlight = (highlight) => {
+  const addHighlight = async (highlight) => {
     const newHighlight = {
-      id: String(Math.random()).slice(2),
+      highlightId: String(Math.random()).slice(2),
       pdfId: id,
       content: highlight.content,
       position: highlight.position,
@@ -26,9 +26,27 @@ export const ViewPdfPage = () => {
       timestamp: new Date().toISOString()
     };
 
+    const data = [...highlights, newHighlight];    
     setHighlights(prevHighlights => [...prevHighlights, newHighlight]);
-    console.log("Saved highlight:", newHighlight);
+    // console.log("Saved highlight:", newHighlight);
+    try {
+      const response = await axiosPrivate.put(`/user/pdf/edit/${id}`, { highlights: data }, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      console.log("Highlight saved to backend:", response.data);
+
+    } catch (error) {
+      console.log("highlights update error", error);
+      setHighlights((prev) =>
+        prev.filter((h) => h.id !== newHighlight.id)
+      );
+    }
   };
+
+  
 
   useEffect(() => {
     setLoading(true);
@@ -81,21 +99,15 @@ export const ViewPdfPage = () => {
               <PdfHighlighter
                 pdfDocument={pdfDocument}
                 highlights={highlights}
-                onSelectionFinished={(
-                  position,
-                  content,
-                  hideTipAndSelection,
-                  transformSelection
-                ) => {
-                  transformSelection(
-                    <Tip
-                      onConfirm={(comment) => {
-                        addHighlight({ content, position, comment });
-                        hideTipAndSelection();
-                      }}
-                    />
-                  );
-                }}
+                onSelectionFinished={(position, content, hideTipAndSelection) => (
+                  <Tip
+                    onOpen={() => { }}
+                    onConfirm={(comment) => {
+                      addHighlight({ content, position, comment });
+                      hideTipAndSelection();
+                    }}
+                  />
+                )}
                 highlightTransform={(highlight, index, setTip, hideTip) => (
                   <Popup
                     popupContent={<div>{highlight.comment.text}</div>}
@@ -103,10 +115,15 @@ export const ViewPdfPage = () => {
                     onMouseOut={hideTip}
                     key={index}
                   >
-                    <Highlight isScrolledTo={true} position={highlight.position} comment={highlight.comment} />
+                    <Highlight
+                      isScrolledTo={false}
+                      position={highlight.position}
+                      comment={highlight.comment}
+                    />
                   </Popup>
                 )}
               />
+
             )}
           </PdfLoader>
         )}

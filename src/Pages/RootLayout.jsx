@@ -18,7 +18,6 @@ export const RootLayout = () => {
         const fetchRefreshToken = async () => {
             try {
                 const response = await axios.get("/auth/refresh", { withCredentials: true });
-                console.log(response.data);
                 dispatch(authAction.setAuthToken({ ...response.data }))
 
             } catch (error) {

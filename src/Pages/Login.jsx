@@ -23,7 +23,7 @@ export const Login = () => {
                     "Content-Type": "application/json"
                 }
             })
-            console.log(response.data);
+           
             setError(null);
             dispatch(authAction.setAuthToken({ ...response.data }))
             navigate("/");

@@ -24,8 +24,7 @@ export const HomePage = () => {
         try {
             const formData = new FormData();
             formData.append("file", file);
-            console.log(formData);
-
+    
             const response = await axiosPrivate.post("user/pdf/upload", formData, {
                 withCredentials: true,
                 headers: {
@@ -33,7 +32,7 @@ export const HomePage = () => {
                 },
             });
 
-            // console.log("Upload success:", response);
+
             const pdfId = response.data.pdfId;
             navigate(`/pdf/${pdfId}`);
 
